@@ -14,19 +14,13 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMoviePopular(page: Int, language: String): Flow<List<Movie>> {
         return flow {
-            val moviePopular = movieApi.getMoviePopular(page, language)
-            if (moviePopular.isSuccess) {
-                moviePopular.getOrNull()
-                    ?.results
-                    ?.map { it.toModel() }
-                    ?.let {
-                        emit(it)
-                    }
-            }
+            emit(movieApi.getMoviePopular(page, language).results.map {
+                it.toModel()
+            })
         }
     }
 
-    override suspend fun getMovieDetail(movieId: Int) {
+    override suspend fun getMovieDetail(movieId: Int): Flow<Movie> {
         TODO("Not yet implemented")
     }
 

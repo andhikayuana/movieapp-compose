@@ -18,4 +18,7 @@
     <string name="app_name">MovieApp Compose</string>
     <string name="text_popular">Popular</string>
     <string name="text_favorite">Favorite</string>
+    <string name="text_back">Back</string>
+    <string name="text_play">Play</string>
+    <string name="text_trailer">Trailer</string>
 </resources>

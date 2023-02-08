@@ -22,7 +22,7 @@ import id.yuana.compose.movieapp.presentation.screen.moviepopular.MoviePopularSc
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieAppHomeNavigation(
+fun MovieHomeNavigation(
     rootNavController: NavHostController
 ) {
     val navController = rememberNavController()
@@ -42,7 +42,7 @@ fun MovieAppHomeNavigation(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text(stringResource(id = R.string.app_name)) },
             )
         },
@@ -99,7 +99,7 @@ fun NavGraphBuilder.HomeNavGraph(
     rootNavController: NavHostController
 ) {
     composable(route = MovieRoutes.MoviePopular.route) {
-        MoviePopularScreen(navController = rootNavController)
+        MoviePopularScreen(rootNavController = rootNavController)
     }
     composable(route = MovieRoutes.MovieFavorite.route) {
         MovieFavoriteScreen()

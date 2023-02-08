@@ -18,6 +18,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.parcelize") version "1.8.0"
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
@@ -48,7 +49,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         val movieBaseUrl: String by project
@@ -116,6 +120,7 @@ dependencies {
 
     implementation(libs.bundles.retrofit)
     implementation(libs.okhttp.interceptor)
+    implementation(libs.bundles.coil)
 
     // Compose
     implementation(libs.androidx.compose.ui)

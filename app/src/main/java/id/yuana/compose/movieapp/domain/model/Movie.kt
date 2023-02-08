@@ -1,7 +1,10 @@
 package id.yuana.compose.movieapp.domain.model
 
-import java.util.Date
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.*
 
+@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -16,4 +19,11 @@ data class Movie(
     val genres: List<Genre>,
     val runtime: Int,
     val tagline: String
-)
+) : Parcelable {
+    fun getPosterUrl(size: String = "w500"): String =
+        "https://image.tmdb.org/t/p/${size}/${posterPath}"
+
+    fun getBackdropUrl(size: String = "w500"): String =
+        "https://image.tmdb.org/t/p/${size}/${backdropPath}"
+
+}

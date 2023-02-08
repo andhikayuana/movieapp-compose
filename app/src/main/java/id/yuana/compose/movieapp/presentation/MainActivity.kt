@@ -25,7 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import id.yuana.compose.movieapp.navigation.graph.root.MovieAppRootNavigation
+import id.yuana.compose.movieapp.navigation.graph.root.MovieRootNavigation
 import id.yuana.compose.movieapp.presentation.ui.theme.MovieAppTheme
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MovieAppRootNavigation()
+                    MovieRootNavigation()
                 }
             }
         }

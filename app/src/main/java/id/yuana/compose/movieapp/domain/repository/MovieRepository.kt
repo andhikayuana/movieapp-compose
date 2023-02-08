@@ -7,5 +7,5 @@ interface MovieRepository {
 
     suspend fun getMoviePopular(page: Int, language: String): Flow<List<Movie>>
 
-    suspend fun getMovieDetail(movieId: Int)
+    suspend fun getMovieDetail(movieId: Int): Flow<Movie>
 }
