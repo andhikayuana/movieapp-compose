@@ -24,4 +24,5 @@
     <string name="text_videos">Videos</string>
     <string name="text_rating">Rating</string>
     <string name="text_favorite_add">Add Favorite</string>
+    <string name="text_favorite_remove">Remove Favorite</string>
 </resources>

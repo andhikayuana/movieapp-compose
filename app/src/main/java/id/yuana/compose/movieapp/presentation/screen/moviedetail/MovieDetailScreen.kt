@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.*
@@ -117,14 +117,15 @@ fun MovieDetailScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         AssistChip(
                             onClick = { /*TODO*/ },
-                            label = { Text(text = stringResource(id = R.string.text_favorite_add)) },
+                            label = { Text(text = stringResource(id = R.string.text_favorite)) },
                             leadingIcon = {
                                 Icon(
-                                    imageVector = Icons.Rounded.Favorite,
-                                    contentDescription = stringResource(id = R.string.text_favorite_add)
+                                    imageVector = Icons.Rounded.FavoriteBorder,
+                                    contentDescription = stringResource(id = R.string.text_favorite)
                                 )
                             }
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
                     }
                 }
 
@@ -132,9 +133,20 @@ fun MovieDetailScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Column(modifier = Modifier.padding(horizontal = 20.dp)) {
                 Text(
-                    text = "${movieDetail?.title}",
+                    text = "${movieDetail?.titleOriginal}",
                     style = MaterialTheme.typography.titleLarge
                 )
+                Row {
+                    Text(
+                        text = "${movieDetail?.getReleaseYear()}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "${movieDetail?.getDuration()}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
                 LazyRow {
                     movieDetail?.genres?.let { genres ->
                         items(genres) { genre ->
