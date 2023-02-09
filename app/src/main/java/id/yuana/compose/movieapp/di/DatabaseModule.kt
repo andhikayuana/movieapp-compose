@@ -25,6 +25,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.local.database.MovieEntityDao
+//import id.yuana.compose.movieapp.data.local.database.MovieDatabase
+//import id.yuana.compose.movieapp.data.local.database.MovieEntityDao
 import javax.inject.Singleton
 
 

@@ -1,5 +1,7 @@
 package id.yuana.compose.movieapp.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides

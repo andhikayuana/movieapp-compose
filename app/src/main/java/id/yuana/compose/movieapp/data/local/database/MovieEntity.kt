@@ -16,26 +16,35 @@
 
 package id.yuana.compose.movieapp.data.local.database
 
-import androidx.room.Dao
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.PrimaryKey
-import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import androidx.paging.PagingSource
+import androidx.room.*
+import java.util.*
 
 @Entity(tableName = "movies")
 data class MovieEntity(
-    val name: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var uid: Int = 0
-}
+    @PrimaryKey
+    val id: Int,
+    val title: String,
+    val titleOriginal: String,
+    val overview: String,
+    val popularity: Double,
+    val posterPath: String,
+    val backdropPath: String,
+    val voteAverage: Double,
+    val voteCount: Int,
+    val releaseDate: Date,
+    val runtime: Int,
+    val tagline: String
+)
 
 @Dao
 interface MovieEntityDao {
-    @Query("SELECT * FROM movies ORDER BY uid DESC LIMIT 10")
-    fun getMovies(): Flow<List<MovieEntity>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(movies: List<MovieEntity>)
 
-    @Insert
-    suspend fun insertMovie(item: MovieEntity)
+    @Query("SELECT * FROM movies")
+    fun pagingSource(): PagingSource<Int, MovieEntity>
+
+    @Query("DELETE FROM movies")
+    suspend fun clearAll()
 }

@@ -21,4 +21,7 @@
     <string name="text_back">Back</string>
     <string name="text_play">Play</string>
     <string name="text_trailer">Trailer</string>
+    <string name="text_videos">Videos</string>
+    <string name="text_rating">Rating</string>
+    <string name="text_favorite_add">Add Favorite</string>
 </resources>

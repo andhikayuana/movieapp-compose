@@ -1,6 +1,7 @@
 package id.yuana.compose.movieapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class GetMovieDetailResponse(
     @SerializedName("adult") val adult: Boolean,
@@ -19,7 +20,7 @@ data class GetMovieDetailResponse(
     @SerializedName("production_companies") val productionCompanies: List<ProductionCompanies> = listOf(),
     @SerializedName("production_countries") val productionCountries: List<ProductionCountries> = listOf(),
     @SerializedName("release_date") val releaseDate: String,
-    @SerializedName("revenue") val revenue: Int,
+    @SerializedName("revenue") val revenue: Long,
     @SerializedName("runtime") val runtime: Int,
     @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguages> = listOf(),
     @SerializedName("status") val status: String,

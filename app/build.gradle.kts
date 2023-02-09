@@ -116,11 +116,16 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 
     implementation(libs.bundles.retrofit)
     implementation(libs.okhttp.interceptor)
     implementation(libs.bundles.coil)
+    implementation(libs.bundles.accompanist)
 
     // Compose
     implementation(libs.androidx.compose.ui)
