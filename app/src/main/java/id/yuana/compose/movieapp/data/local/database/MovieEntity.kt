@@ -16,6 +16,7 @@
 
 package id.yuana.compose.movieapp.data.local.database
 
+
 import androidx.paging.PagingSource
 import androidx.room.*
 import java.util.*
@@ -40,11 +41,14 @@ data class MovieEntity(
 @Dao
 interface MovieEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(movies: List<MovieEntity>)
+    suspend fun insert(movie: MovieEntity)
 
-    @Query("SELECT * FROM movies")
-    fun pagingSource(): PagingSource<Int, MovieEntity>
+    @Query("SELECT * FROM movies WHERE id = :movieId")
+    suspend fun find(movieId: Int): MovieEntity?
 
-    @Query("DELETE FROM movies")
-    suspend fun clearAll()
+    @Query("DELETE FROM movies WHERE id = :movieId")
+    suspend fun delete(movieId: Int)
+
+//    @Query("SELECT * FROM movies")
+//    suspend fun paginate(): PagingSource<Int, MovieEntity>
 }

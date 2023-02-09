@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import id.yuana.compose.movieapp.data.paging.MoviePagingSource
+import id.yuana.compose.movieapp.data.paging.MovieRemotePagingSource
 import id.yuana.compose.movieapp.data.remote.MovieApi
 import javax.inject.Singleton
 
@@ -16,5 +16,5 @@ class PagingModule {
     @Singleton
     fun provideMoviePagingSource(
         movieApi: MovieApi
-    ) = MoviePagingSource(movieApi)
+    ) = MovieRemotePagingSource(movieApi)
 }

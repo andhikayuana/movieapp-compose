@@ -5,9 +5,10 @@ import androidx.paging.PagingState
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.remote.MovieApi
 import id.yuana.compose.movieapp.domain.model.Movie
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class MoviePagingSource @Inject constructor(
+class MovieRemotePagingSource @Inject constructor(
     private val movieApi: MovieApi
 ) : PagingSource<Int, Movie>() {
 

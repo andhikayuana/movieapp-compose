@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Star
@@ -43,8 +44,6 @@ fun MovieDetailScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
-    val movieDetail = uiState.movie.collectAsState(initial = movie).value
-    val movieVideos = uiState.videos.collectAsState(initial = emptyList()).value
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = Unit) {
@@ -59,6 +58,9 @@ fun MovieDetailScreen(
                 .padding(it)
                 .verticalScroll(scrollState),
         ) {
+            val movieDetail = uiState.movie.collectAsState(initial = movie).value
+            val movieVideos = uiState.videos.collectAsState(initial = emptyList()).value
+
             Box(
                 contentAlignment = Alignment.TopStart,
                 modifier = Modifier
@@ -115,17 +117,23 @@ fun MovieDetailScreen(
                             }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        AssistChip(
-                            onClick = { /*TODO*/ },
-                            label = { Text(text = stringResource(id = R.string.text_favorite)) },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.FavoriteBorder,
-                                    contentDescription = stringResource(id = R.string.text_favorite)
-                                )
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+
+                        movieDetail?.favorite?.let { favorite ->
+                            AssistChip(
+                                onClick = {
+                                    viewModel.addRemoveFavorite(movieDetail)
+                                },
+                                label = { Text(text = stringResource(id = R.string.text_favorite)) },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = if (favorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
+                                        contentDescription = stringResource(id = R.string.text_favorite)
+                                    )
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+
                     }
                 }
 

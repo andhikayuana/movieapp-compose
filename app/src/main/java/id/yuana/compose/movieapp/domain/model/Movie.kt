@@ -17,9 +17,10 @@ data class Movie(
     val voteAverage: Double,
     val voteCount: Int,
     val releaseDate: Date,
-    val genres: List<Genre>,
+    val genres: List<Genre> = emptyList(),
     val runtime: Int,
-    val tagline: String
+    val tagline: String,
+    val favorite: Boolean = false
 ) : Parcelable {
     fun getPosterUrl(size: String = "w500"): String =
         "https://image.tmdb.org/t/p/${size}/${posterPath}"
