@@ -12,6 +12,9 @@ MovieApp using Compose
 
 | Demo | Movies | Favorites | Detail |
 |--|--------|-----------|--------|
-| ![](./docs/demo.mp4) | ![Movies](./docs/screenshots/movies.png)       |  ![Favorites](./docs/screenshots/favorites.png)         |    ![Detail](./docs/screenshots/detail.png)    |
+| <video src="https://user-images.githubusercontent.com/10376354/218038264-5c0ef444-c278-4b64-823d-53c5aed2539c.mp4" controls="controls"></video> | ![Movies](./docs/screenshots/movies.png)       |  ![Favorites](./docs/screenshots/favorites.png)         |    ![Detail](./docs/screenshots/detail.png)    |
 
 ## todo
+
+
+
