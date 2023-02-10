@@ -35,12 +35,12 @@ fun MovieHomeNavigation(
     val bottomNavigationItems = listOf(
         BottomNavItem(
             route = MovieRoutes.MoviePopular.route,
-            resId = R.string.text_popular,
+            resId = R.string.text_movies,
             icon = Icons.Rounded.PlayArrow
         ),
         BottomNavItem(
             route = MovieRoutes.MovieFavorite.route,
-            resId = R.string.text_favorite,
+            resId = R.string.text_favorites,
             icon = Icons.Rounded.Favorite
         ),
     )

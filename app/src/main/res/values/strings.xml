@@ -25,4 +25,9 @@
     <string name="text_rating">Rating</string>
     <string name="text_favorite_add">Add Favorite</string>
     <string name="text_favorite_remove">Remove Favorite</string>
+    <string name="text_oops_something_went_wrong">Oops, something went wrong!</string>
+    <string name="text_retry">Retry</string>
+    <string name="text_you_dont_have_favorite">You don\'t have favorite movie now</string>
+    <string name="text_movies">Movies</string>
+    <string name="text_favorites">Favorites</string>
 </resources>

@@ -16,13 +16,16 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import id.yuana.compose.movieapp.R
 import id.yuana.compose.movieapp.core.items
 import id.yuana.compose.movieapp.navigation.MovieRoutes
+import id.yuana.compose.movieapp.presentation.ui.component.EmptyStateComponent
 import id.yuana.compose.movieapp.presentation.ui.component.MovieItemCard
 
 @Composable
@@ -41,6 +44,13 @@ fun MovieFavoriteScreen(
     )
 
     Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
+
+        if (movies.itemCount < 1) {
+            EmptyStateComponent(
+                textMessage = stringResource(id = R.string.text_you_dont_have_favorite),
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -62,7 +72,6 @@ fun MovieFavoriteScreen(
                     movie = movie
                 )
             }
-
         }
 
         PullRefreshIndicator(

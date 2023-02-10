@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.remote.MovieApi
 import id.yuana.compose.movieapp.domain.model.Movie
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class MovieRemotePagingSource @Inject constructor(
@@ -20,6 +21,7 @@ class MovieRemotePagingSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> = try {
         val nextPageNumber = params.key ?: 1
+        delay(600)
         val response = movieApi.getMoviePopular(nextPageNumber, "en")
         LoadResult.Page(
             data = response.results.map { it.toModel() },
