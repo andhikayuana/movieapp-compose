@@ -63,6 +63,7 @@ coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 accompanist-placeholder-material = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
+mockk = "io.mockk:mockk:1.13.4"
 
 [bundles]
 retrofit = ["retrofit", "retrofit-gson", "retrofit-result"]
