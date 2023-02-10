@@ -30,7 +30,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieDetail(movieId: Int): Movie {
         val local = movieDatabase.movieEntityDao().find(movieId)?.toModel()
-        val api = movieApi.getMovieDetail(movieId).toModel()
+        val api = movieApi.getMovieDetail(movieId).getOrThrow().toModel()
 
         return if (local != null) {
             api.copy(favorite = true)
@@ -40,7 +40,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMovieVideos(movieId: Int): List<Video> {
-        return movieApi.getMovieVideos(movieId).results.map { it.toModel() }
+        return movieApi.getMovieVideos(movieId).getOrThrow().results.map { it.toModel() }
     }
 
     override suspend fun addRemoveMovieFavorite(movie: Movie): Movie {

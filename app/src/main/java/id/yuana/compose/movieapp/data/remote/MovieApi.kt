@@ -13,15 +13,15 @@ interface MovieApi {
     suspend fun getMoviePopular(
         @Query("page") page: Int,
         @Query("language") language: String
-    ): GetMoviePopularResponse
+    ): Result<GetMoviePopularResponse>
 
     @GET("movie/{movieId}")
     suspend fun getMovieDetail(
         @Path("movieId") movieId: Int
-    ): GetMovieDetailResponse
+    ): Result<GetMovieDetailResponse>
 
     @GET("movie/{movieId}/videos")
     suspend fun getMovieVideos(
         @Path("movieId") movieId: Int
-    ): GetMovieVideosResponse
+    ): Result<GetMovieVideosResponse>
 }

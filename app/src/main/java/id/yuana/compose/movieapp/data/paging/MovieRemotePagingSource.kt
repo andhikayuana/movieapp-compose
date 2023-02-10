@@ -22,7 +22,7 @@ class MovieRemotePagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> = try {
         val nextPageNumber = params.key ?: 1
         delay(600)
-        val response = movieApi.getMoviePopular(nextPageNumber, "en")
+        val response = movieApi.getMoviePopular(nextPageNumber, "en").getOrThrow()
         LoadResult.Page(
             data = response.results.map { it.toModel() },
             prevKey = null,
