@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.remote.MovieApi
 import id.yuana.compose.movieapp.domain.model.Movie
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class MovieRemotePagingSource @Inject constructor(
@@ -25,7 +24,7 @@ class MovieRemotePagingSource @Inject constructor(
         LoadResult.Page(
             data = response.results.map { it.toModel() },
             prevKey = null,
-            nextKey = response.page + 1
+            nextKey = if (response.results.isNotEmpty()) response.page + 1 else null
         )
     } catch (e: Exception) {
         LoadResult.Error(e)

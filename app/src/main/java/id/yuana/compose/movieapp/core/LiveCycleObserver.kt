@@ -1,4 +1,4 @@
-package id.yuana.compose.movieapp.presentation.ui.recomposition
+package id.yuana.compose.movieapp.core
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.Lifecycle

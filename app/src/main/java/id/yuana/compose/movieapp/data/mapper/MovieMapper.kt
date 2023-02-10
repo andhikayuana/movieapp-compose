@@ -16,7 +16,7 @@ fun GetMoviePopularResponse.Result.toModel(): Movie {
         overview = overview,
         popularity = popularity,
         posterPath = posterPath,
-        backdropPath = backdropPath,
+        backdropPath = backdropPath ?: "",
         voteAverage = voteAverage,
         voteCount = voteCount,
         releaseDate = releaseDate,

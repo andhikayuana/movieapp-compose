@@ -1,5 +1,7 @@
 package id.yuana.compose.movieapp.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
@@ -11,13 +13,18 @@ import id.yuana.compose.movieapp.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val movieRemotePagingSource: MovieRemotePagingSource,
     private val movieApi: MovieApi,
     private val movieDatabase: MovieDatabase
 ) : MovieRepository {
+    override fun getMoviePopular(): Pager<Int, Movie> = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+        ),
+        pagingSourceFactory = {
+            MovieRemotePagingSource(movieApi)
+        }
+    )
 
-    override fun getMoviePopular(): MovieRemotePagingSource =
-        movieRemotePagingSource
 
     override suspend fun getMovieDetail(movieId: Int): Movie {
         val local = movieDatabase.movieEntityDao().find(movieId)?.toModel()
