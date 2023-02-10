@@ -115,7 +115,7 @@ fun NavGraphBuilder.HomeNavGraph(
         MoviePopularScreen(rootNavController = rootNavController)
     }
     composable(route = MovieRoutes.MovieFavorite.route) {
-        MovieFavoriteScreen()
+        MovieFavoriteScreen(rootNavController = rootNavController)
     }
     composable(
         route = MovieRoutes.MovieDetail.route,

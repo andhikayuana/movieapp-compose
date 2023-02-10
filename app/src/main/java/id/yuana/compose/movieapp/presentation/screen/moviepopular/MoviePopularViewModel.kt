@@ -12,6 +12,6 @@ class MoviePopularViewModel @Inject constructor(
     private val getMoviePopularUseCase: GetMoviePopularUseCase
 ) : MovieAppViewModel() {
 
-    val movies = getMoviePopularUseCase.invoke().cachedIn(viewModelScope)
+    val movies = getMoviePopularUseCase().cachedIn(viewModelScope)
 
 }

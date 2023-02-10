@@ -49,6 +49,6 @@ interface MovieEntityDao {
     @Query("DELETE FROM movies WHERE id = :movieId")
     suspend fun delete(movieId: Int)
 
-//    @Query("SELECT * FROM movies")
-//    suspend fun paginate(): PagingSource<Int, MovieEntity>
+    @Query("SELECT * FROM movies")
+    fun paginate(): PagingSource<Int, MovieEntity>
 }

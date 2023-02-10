@@ -27,17 +27,17 @@ class MovieDetailViewModel @Inject constructor(
                 it.copy(movie = flowOf(movie))
             }
             _uiState.update {
-                it.copy(movie = getMovieDetailUseCase.invoke(movie.id))
+                it.copy(movie = getMovieDetailUseCase(movie.id))
             }
             _uiState.update {
-                it.copy(videos = getMovieVideosUseCase.invoke(movie.id))
+                it.copy(videos = getMovieVideosUseCase(movie.id))
             }
         }
     }
 
     fun addRemoveFavorite(movie: Movie) {
         viewModelScope.launch {
-            addRemoveMovieToFavoriteUseCase.invoke(movie).collect()
+            addRemoveMovieToFavoriteUseCase(movie).collect()
             _uiState.update {
                 it.copy(movie = flowOf(movie.copy(favorite = !movie.favorite)))
             }
