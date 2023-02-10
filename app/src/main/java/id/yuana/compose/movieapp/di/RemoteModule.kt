@@ -1,7 +1,5 @@
 package id.yuana.compose.movieapp.di
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -24,20 +22,20 @@ object RemoteModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
-                setLevel(
-                    when {
-                        BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
-                        else -> HttpLoggingInterceptor.Level.NONE
-                    }
-                )
-            }).addInterceptor {
-                val request: Request = it.request().newBuilder().url(
-                        it.request().url.newBuilder()
-                            .addQueryParameter("api_key", BuildConfig.MOVIE_API_KEY).build()
-                    ).build()
+            setLevel(
+                when {
+                    BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
+                    else -> HttpLoggingInterceptor.Level.NONE
+                }
+            )
+        }).addInterceptor {
+            val request: Request = it.request().newBuilder().url(
+                it.request().url.newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.MOVIE_API_KEY).build()
+            ).build()
 
-                it.proceed(request)
-            }.build()
+            it.proceed(request)
+        }.build()
 
     @Provides
     @Singleton
