@@ -19,6 +19,7 @@ MovieApp using Compose
 - Clone this project 
 - Open this project using Android Studio
 - Wait until sync & indexing success
+- Make sure you are running the emulator or with your device
 - Then click Run
 - Wait the build process & Voila!
 
