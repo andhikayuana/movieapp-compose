@@ -15,8 +15,10 @@ object MovieDataProvider {
 
     private val gson = Gson()
 
-    fun createGetMoviePopularResponse(): GetMoviePopularResponse {
-        val json = MockResponseFileReader(MovieApiTest.getMoviePopularPage1Response).content
+    fun createGetMoviePopularResponse(
+        file: String = MovieApiTest.getMoviePopularPage1Response
+    ): GetMoviePopularResponse {
+        val json = MockResponseFileReader(file).content
         return gson.fromJson(json, GetMoviePopularResponse::class.java)
     }
 
