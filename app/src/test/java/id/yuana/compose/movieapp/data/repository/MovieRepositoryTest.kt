@@ -2,18 +2,16 @@
 
 package id.yuana.compose.movieapp.data.repository
 
-import com.google.gson.Gson
+import androidx.paging.PagingSource
+import id.yuana.compose.movieapp.data.MovieDataProvider
 import id.yuana.compose.movieapp.data.MovieDataProvider.createErrorNotFoundResponse
 import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieDetailResponse
 import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieVideosResponse
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
-import id.yuana.compose.movieapp.data.remote.MockResponseFileReader
+import id.yuana.compose.movieapp.data.paging.MovieRemotePagingSource
 import id.yuana.compose.movieapp.data.remote.MovieApi
-import id.yuana.compose.movieapp.data.remote.MovieApiTest
-import id.yuana.compose.movieapp.data.remote.response.GetMovieDetailResponse
-import id.yuana.compose.movieapp.data.remote.response.GetMovieVideosResponse
 import id.yuana.compose.movieapp.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.coJustRun
@@ -21,14 +19,11 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
-import retrofit2.Response
-import java.net.HttpURLConnection
 
 class MovieRepositoryTest {
 
@@ -54,6 +49,24 @@ class MovieRepositoryTest {
     @After
     fun tearDown() {
 
+    }
+
+    @Test
+    fun `when getMoviePopular called, then should success`() = runTest {
+
+//        val moviePopularPage1Response = MovieDataProvider.createGetMoviePopularResponse()
+//        val movieRemotePagingSource = MovieRemotePagingSource(movieApi)
+
+//        coEvery { movieApi.getMoviePopular(1, "en") } returns Result.success(moviePopularPage1Response)
+//        coEvery { movieRemotePagingSource.load(PagingSource.LoadParams.Refresh(
+//            key = 1,
+//            loadSize = 20,
+//            placeholdersEnabled = false
+//        )) } returns
+
+//        val moviePopularPager = movieRepository.getMoviePopular()
+
+//        coVerify { movieApi.getMoviePopular(1, "en") }
     }
 
 

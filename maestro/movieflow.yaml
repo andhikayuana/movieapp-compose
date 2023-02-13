@@ -1,0 +1,4 @@
+appId: id.yuana.compose.movieapp
+---
+- launchApp:
+- tapOn: "Favorites"

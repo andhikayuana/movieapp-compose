@@ -2,7 +2,6 @@
 
 package id.yuana.compose.movieapp.domain.usecase
 
-import com.google.common.truth.Truth.assertThat
 import id.yuana.compose.movieapp.data.MovieDataProvider
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.domain.repository.MovieRepository
@@ -23,13 +22,13 @@ class GetMovieVideosUseCaseTest {
     private lateinit var getMovieVideosUseCase: GetMovieVideosUseCase
 
     @Before
-    fun setUp(){
+    fun setUp() {
         movieRepository = mockk()
         getMovieVideosUseCase = GetMovieVideosUseCase(movieRepository)
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
 
     }
 
@@ -37,7 +36,8 @@ class GetMovieVideosUseCaseTest {
     fun `given valid movieId then return movie videos successfully`() = runTest {
 
         val movieDetail = MovieDataProvider.createGetMovieDetailResponse().toModel()
-        val movieVideos = MovieDataProvider.createGetMovieVideosResponse().results.map { it.toModel() }
+        val movieVideos =
+            MovieDataProvider.createGetMovieVideosResponse().results.map { it.toModel() }
 
         coEvery { movieRepository.getMovieVideos(movieDetail.id) } returns movieVideos
 
