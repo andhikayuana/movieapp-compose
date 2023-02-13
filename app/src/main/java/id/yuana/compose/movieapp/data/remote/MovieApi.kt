@@ -1,5 +1,6 @@
 package id.yuana.compose.movieapp.data.remote
 
+import id.yuana.compose.movieapp.data.remote.response.GetMovieCreditsResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMovieDetailResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMoviePopularResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMovieVideosResponse
@@ -24,4 +25,9 @@ interface MovieApi {
     suspend fun getMovieVideos(
         @Path("movieId") movieId: Int
     ): Result<GetMovieVideosResponse>
+
+    @GET("movie/{movieId}/credits")
+    suspend fun getMovieCredits(
+        @Path("movieId") movieId: Int
+    ): Result<GetMovieCreditsResponse>
 }

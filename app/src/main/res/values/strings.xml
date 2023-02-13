@@ -30,4 +30,5 @@
     <string name="text_you_dont_have_favorite">You don\'t have favorite movie now</string>
     <string name="text_movies">Movies</string>
     <string name="text_favorites">Favorites</string>
+    <string name="text_cast">Cast</string>
 </resources>

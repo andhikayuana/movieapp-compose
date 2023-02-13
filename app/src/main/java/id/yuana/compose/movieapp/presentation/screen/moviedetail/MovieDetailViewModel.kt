@@ -6,8 +6,10 @@ import id.yuana.compose.movieapp.core.MovieAppViewModel
 import id.yuana.compose.movieapp.core.UiEvent
 import id.yuana.compose.movieapp.domain.model.Movie
 import id.yuana.compose.movieapp.domain.usecase.AddRemoveMovieToFavoriteUseCase
+import id.yuana.compose.movieapp.domain.usecase.GetMovieCreditsUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieDetailUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieVideosUseCase
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class MovieDetailViewModel @Inject constructor(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val getMovieVideosUseCase: GetMovieVideosUseCase,
-    private val addRemoveMovieToFavoriteUseCase: AddRemoveMovieToFavoriteUseCase
+    private val addRemoveMovieToFavoriteUseCase: AddRemoveMovieToFavoriteUseCase,
+    private val getMovieCreditsUseCase: GetMovieCreditsUseCase
 ) : MovieAppViewModel() {
 
     private val _uiState = MutableStateFlow(MovieDetailState())
@@ -28,15 +31,31 @@ class MovieDetailViewModel @Inject constructor(
     fun fetchDetail(movie: Movie) {
         viewModelScope.launch {
             try {
+                val detailAsync = async { getMovieDetailUseCase(movie.id) }
+                val videoAsync = async { getMovieVideosUseCase(movie.id) }
+                val creditAsync = async { getMovieCreditsUseCase(movie.id) }
+
                 _uiState.update {
                     it.copy(movie = flowOf(movie))
                 }
                 _uiState.update {
-                    it.copy(movie = getMovieDetailUseCase(movie.id))
+                    it.copy(movie = detailAsync.await())
                 }
                 _uiState.update {
-                    it.copy(videos = getMovieVideosUseCase(movie.id))
+                    it.copy(videos = videoAsync.await())
                 }
+
+                creditAsync.await().collect {
+                    val (cast, crew) = it
+
+                    _uiState.update {
+                        it.copy(
+                            cast = flowOf(cast),
+                            crew = flowOf(crew)
+                        )
+                    }
+                }
+
             } catch (e: Exception) {
                 sendUiEvent(
                     UiEvent.ShowSnackbar(

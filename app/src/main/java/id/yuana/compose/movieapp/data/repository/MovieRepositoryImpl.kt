@@ -8,10 +8,11 @@ import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.paging.MovieRemotePagingSource
 import id.yuana.compose.movieapp.data.remote.MovieApi
+import id.yuana.compose.movieapp.domain.model.Cast
+import id.yuana.compose.movieapp.domain.model.Crew
 import id.yuana.compose.movieapp.domain.model.Movie
 import id.yuana.compose.movieapp.domain.model.Video
 import id.yuana.compose.movieapp.domain.repository.MovieRepository
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -42,6 +43,14 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getMovieVideos(movieId: Int): List<Video> {
         return movieApi.getMovieVideos(movieId).getOrThrow().results.map { it.toModel() }
+    }
+
+    override suspend fun getMovieCredits(movieId: Int): Pair<List<Cast>, List<Crew>> {
+        val creditsResult = movieApi.getMovieCredits(movieId).getOrThrow()
+        return Pair(
+            creditsResult.cast.map { it.toModel() },
+            creditsResult.crew.map { it.toModel() }
+        )
     }
 
     override suspend fun addRemoveMovieFavorite(movie: Movie): Movie {

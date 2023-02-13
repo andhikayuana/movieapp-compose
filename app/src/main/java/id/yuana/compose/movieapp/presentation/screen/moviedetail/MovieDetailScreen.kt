@@ -29,13 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
 import id.yuana.compose.movieapp.R
 import id.yuana.compose.movieapp.core.UiEvent
+import id.yuana.compose.movieapp.domain.model.Cast
+import id.yuana.compose.movieapp.domain.model.Crew
 import id.yuana.compose.movieapp.domain.model.Movie
 import id.yuana.compose.movieapp.domain.model.Video
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,7 +85,6 @@ fun MovieDetailScreen(
                 .verticalScroll(scrollState),
         ) {
             val movieDetail = uiState.movie.collectAsState(initial = movie).value
-            val movieVideos = uiState.videos.collectAsState(initial = emptyList()).value
 
             Box(
                 contentAlignment = Alignment.TopStart,
@@ -192,11 +190,116 @@ fun MovieDetailScreen(
                     textAlign = TextAlign.Justify
                 )
 
+                val movieVideos = uiState.videos.collectAsState(initial = emptyList()).value
                 VideoLazyRow(movieVideos)
+
+                val movieCast = uiState.cast.collectAsState(initial = emptyList()).value
+                CreditCastLazyRow(movieCast)
+
+                val movieCrew = uiState.crew.collectAsState(initial = emptyList()).value
+                CreditCrewLazyRow(movieCrew)
             }
         }
 
 
+    }
+}
+
+@Composable
+fun CreditCrewLazyRow(movieCrew: List<Crew>) {
+    Spacer(modifier = Modifier.height(10.dp))
+    Divider()
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = stringResource(id = R.string.text_videos),
+        style = MaterialTheme.typography.titleMedium,
+        textAlign = TextAlign.Justify
+    )
+    LazyRow(
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        items(movieCrew) { crewItem ->
+            CreditCrewItemCard(crewItem)
+        }
+    }
+}
+
+@Composable
+fun CreditCastLazyRow(movieCast: List<Cast>) {
+    Spacer(modifier = Modifier.height(10.dp))
+    Divider()
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = stringResource(id = R.string.text_cast),
+        style = MaterialTheme.typography.titleMedium,
+        textAlign = TextAlign.Justify
+    )
+    LazyRow(
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        items(movieCast) { castItem ->
+            CreditCastItemCard(castItem)
+        }
+    }
+}
+
+@Composable
+private fun CreditCrewItemCard(crewItem: Crew) {
+    Card(
+        modifier = Modifier.width(100.dp)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            AsyncImage(
+                model = crewItem.getProfileImage(),
+                contentDescription = crewItem.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                contentScale = ContentScale.Crop,
+            )
+        }
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = crewItem.name,
+                style = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = crewItem.department,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CreditCastItemCard(castItem: Cast) {
+    Card(
+        modifier = Modifier.width(100.dp)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            AsyncImage(
+                model = castItem.getProfileImage(),
+                contentDescription = castItem.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                contentScale = ContentScale.Crop,
+            )
+        }
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = castItem.name,
+                style = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = castItem.character,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
     }
 }
 
