@@ -31,21 +31,18 @@ class MovieDetailViewModel @Inject constructor(
     fun fetchDetail(movie: Movie) {
         viewModelScope.launch {
             try {
-                val detailAsync = async { getMovieDetailUseCase(movie.id) }
-                val videoAsync = async { getMovieVideosUseCase(movie.id) }
-                val creditAsync = async { getMovieCreditsUseCase(movie.id) }
 
                 _uiState.update {
                     it.copy(movie = flowOf(movie))
                 }
                 _uiState.update {
-                    it.copy(movie = detailAsync.await())
+                    it.copy(movie = getMovieDetailUseCase(movie.id))
                 }
                 _uiState.update {
-                    it.copy(videos = videoAsync.await())
+                    it.copy(videos = getMovieVideosUseCase(movie.id))
                 }
 
-                creditAsync.await().collect {
+                getMovieCreditsUseCase(movie.id).collect {
                     val (cast, crew) = it
 
                     _uiState.update {

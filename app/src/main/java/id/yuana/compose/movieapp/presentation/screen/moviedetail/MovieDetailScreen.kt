@@ -211,7 +211,7 @@ fun CreditCrewLazyRow(movieCrew: List<Crew>) {
     Divider()
     Spacer(modifier = Modifier.height(10.dp))
     Text(
-        text = stringResource(id = R.string.text_videos),
+        text = stringResource(id = R.string.text_crew),
         style = MaterialTheme.typography.titleMedium,
         textAlign = TextAlign.Justify
     )
