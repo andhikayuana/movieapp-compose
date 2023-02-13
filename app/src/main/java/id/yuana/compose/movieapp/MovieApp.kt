@@ -17,7 +17,17 @@
 package id.yuana.compose.movieapp
 
 import android.app.Application
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.request.CachePolicy
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MovieApp : Application()
+class MovieApp : Application(), ImageLoaderFactory {
+    override fun newImageLoader(): ImageLoader = ImageLoader
+        .Builder(this)
+        .crossfade(true)
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .build()
+
+}

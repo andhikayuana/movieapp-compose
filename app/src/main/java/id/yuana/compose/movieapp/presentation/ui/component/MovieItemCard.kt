@@ -28,11 +28,7 @@ fun MovieItemCard(
             contentAlignment = Alignment.BottomCenter
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.getPosterUrl())
-                    .crossfade(true)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .build(),
+                model = movie.getPosterUrl(),
                 contentDescription = movie.title,
                 modifier = Modifier.fillMaxWidth()
             )

@@ -20,7 +20,7 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
     override fun getMoviePopular(): Pager<Int, Movie> = Pager(
         config = PagingConfig(
-            pageSize = 20,
+            pageSize = 20
         ),
         pagingSourceFactory = {
             //not testable?

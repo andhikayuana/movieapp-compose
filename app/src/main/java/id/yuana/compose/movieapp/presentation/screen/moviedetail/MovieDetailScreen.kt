@@ -32,8 +32,11 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import id.yuana.compose.movieapp.R
+import id.yuana.compose.movieapp.core.UiEvent
 import id.yuana.compose.movieapp.domain.model.Movie
 import id.yuana.compose.movieapp.domain.model.Video
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +47,9 @@ fun MovieDetailScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
+    val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = Unit) {
         movie?.let {
@@ -52,7 +57,29 @@ fun MovieDetailScreen(
         }
     }
 
-    Scaffold {
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.ShowSnackbar -> {
+                    scope.launch {
+                        val snackbarResult = snackbarHostState.showSnackbar(
+                            message = event.message,
+                            actionLabel = event.action
+                        )
+
+                        if (snackbarResult == SnackbarResult.ActionPerformed) {
+                            movie?.let { viewModel.fetchDetail(it) }
+                        }
+                    }
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -69,11 +96,7 @@ fun MovieDetailScreen(
             ) {
                 Box {
                     AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(movieDetail?.getBackdropUrl())
-                            .crossfade(true)
-                            .diskCachePolicy(CachePolicy.ENABLED)
-                            .build(),
+                        model = movieDetail?.getBackdropUrl(),
                         contentDescription = movieDetail?.title,
                         modifier = Modifier.fillMaxWidth(),
                         contentScale = ContentScale.FillWidth
@@ -87,11 +110,7 @@ fun MovieDetailScreen(
                             .padding(start = 10.dp, top = 10.dp),
                     ) {
                         AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(movieDetail?.getPosterUrl("w342"))
-                                .crossfade(true)
-                                .diskCachePolicy(CachePolicy.ENABLED)
-                                .build(),
+                            model = movieDetail?.getPosterUrl("w342"),
                             contentDescription = movieDetail?.title,
                             modifier = Modifier.height(200.dp)
                         )
@@ -221,11 +240,7 @@ internal fun VideoItemCard(video: Video) {
     ) {
         Box(contentAlignment = Alignment.Center) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(video.getYoutubeThumbnail())
-                    .crossfade(true)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .build(),
+                model = video.getYoutubeThumbnail(),
                 contentDescription = video.name,
                 modifier = Modifier
                     .fillMaxWidth()
