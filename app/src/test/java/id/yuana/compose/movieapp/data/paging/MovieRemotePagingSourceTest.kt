@@ -144,10 +144,11 @@ class MovieRemotePagingSourceTest {
         val movieRemotePagingSource = MovieRemotePagingSource(movieApi)
 
         val pagingState = PagingState<Int, Movie>(listOf(), 1, PagingConfig(20), 20)
-        movieRemotePagingSource.getRefreshKey(
+        val refreshKeyActual = movieRemotePagingSource.getRefreshKey(
             state = pagingState
         )
-        //?
+
+        assertEquals(null, refreshKeyActual)
 
 
     }
