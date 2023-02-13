@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -79,14 +78,15 @@ class MovieDetailViewModelTest {
     @Test
     fun `given valid movie and toggle favorite then return success`() = runTest {
 
-        val movieDetail = movieDetailResponse.toModel()
+        val movieDetail = movieDetailResponse.toModel().copy(favorite = true)
 
-        coJustAwait { addRemoveMovieToFavoriteUseCase(movieDetail) }
+        coEvery { addRemoveMovieToFavoriteUseCase(movieDetail) } returns flowOf(movieDetail)
 
         movieDetailViewModel.fetchDetail(movieFromPopular)
         movieDetailViewModel.addRemoveFavorite(movieDetail)
 
         coVerify { addRemoveMovieToFavoriteUseCase(movieDetail) }
+        assertEquals(true, movieDetailViewModel.uiState.value.movie.last().favorite)
 
     }
 }

@@ -7,7 +7,10 @@ import id.yuana.compose.movieapp.domain.model.Movie
 import id.yuana.compose.movieapp.domain.usecase.AddRemoveMovieToFavoriteUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieDetailUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieVideosUseCase
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,10 +40,12 @@ class MovieDetailViewModel @Inject constructor(
 
     fun addRemoveFavorite(movie: Movie) {
         viewModelScope.launch {
-            addRemoveMovieToFavoriteUseCase(movie).collect()
-            _uiState.update {
-                it.copy(movie = flowOf(movie.copy(favorite = !movie.favorite)))
+            addRemoveMovieToFavoriteUseCase(movie).collect { mov ->
+                _uiState.update {
+                    it.copy(movie = flowOf(movie.copy(favorite = mov.favorite)))
+                }
             }
+
         }
     }
 }
