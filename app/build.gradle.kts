@@ -143,6 +143,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.okhttp.mockwebserver)
+    testImplementation(libs.google.truth)
 
     // Instrumented tests: jUnit rules and runners
 

@@ -3,6 +3,9 @@
 package id.yuana.compose.movieapp.data.repository
 
 import com.google.gson.Gson
+import id.yuana.compose.movieapp.data.MovieDataProvider.createErrorNotFoundResponse
+import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieDetailResponse
+import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieVideosResponse
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
@@ -36,7 +39,6 @@ class MovieRepositoryTest {
     private lateinit var movieApi: MovieApi
     private lateinit var movieDatabase: MovieDatabase
     private lateinit var movieRepository: MovieRepository
-    private val gson = Gson()
 
     @Before
     fun setUp() {
@@ -54,25 +56,6 @@ class MovieRepositoryTest {
 
     }
 
-    private fun createGetMovieVideosResponse(): GetMovieVideosResponse {
-        val json = MockResponseFileReader(MovieApiTest.getMovieVideosResponse).content
-        return gson.fromJson(json, GetMovieVideosResponse::class.java)
-    }
-
-    private fun createGetMovieDetailResponse(): GetMovieDetailResponse {
-        val json = MockResponseFileReader(MovieApiTest.getMovieDetailResponse).content
-        return gson.fromJson(json, GetMovieDetailResponse::class.java)
-    }
-
-    private fun createErrorNotFoundResponse(): HttpException {
-        val json = MockResponseFileReader(MovieApiTest.getMovieNotFoundResponse).content
-        return HttpException(
-            Response.error<HttpException>(
-                HttpURLConnection.HTTP_NOT_FOUND,
-                json.toResponseBody()
-            )
-        )
-    }
 
     @Test
     fun `given getMovieVideos with valid movieId then should return movie videos with success response`() =
