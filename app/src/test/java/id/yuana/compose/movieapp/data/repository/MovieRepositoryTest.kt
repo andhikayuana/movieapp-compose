@@ -2,16 +2,15 @@
 
 package id.yuana.compose.movieapp.data.repository
 
-import androidx.paging.PagingSource
-import id.yuana.compose.movieapp.data.MovieDataProvider
 import id.yuana.compose.movieapp.data.MovieDataProvider.createErrorNotFoundResponse
+import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieCreditsResponse
 import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieDetailResponse
 import id.yuana.compose.movieapp.data.MovieDataProvider.createGetMovieVideosResponse
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
-import id.yuana.compose.movieapp.data.paging.MovieRemotePagingSource
 import id.yuana.compose.movieapp.data.remote.MovieApi
+import id.yuana.compose.movieapp.domain.model.Cast
 import id.yuana.compose.movieapp.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.coJustRun
@@ -21,6 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
@@ -91,11 +91,27 @@ class MovieRepositoryTest {
         coEvery { movieApi.getMovieVideos(-1) } throws createErrorNotFoundResponse()
 
         //when
-        movieRepository.getMovieVideos(-1)
+        val actual = movieRepository.getMovieVideos(-1)
 
         //then
         coVerify { movieApi.getMovieVideos(-1) }
+        assertTrue(actual.isNotEmpty())
 
+    }
+
+    @Test
+    fun `given getMovieCredits with valid movieId then should return success`() = runTest {
+
+        coEvery { movieApi.getMovieCredits(blackPantherId) } returns Result.success(
+            createGetMovieCreditsResponse()
+        )
+
+        val actual = movieRepository.getMovieCredits(blackPantherId)
+
+        coVerify { movieApi.getMovieCredits(blackPantherId) }
+
+        assertTrue(actual.first.isNotEmpty())
+        assertTrue(actual.second.isNotEmpty())
     }
 
     @Test
@@ -166,4 +182,6 @@ class MovieRepositoryTest {
         coVerify { movieDatabase.movieEntityDao().insert(blackPantherMovie.toEntity()) }
         assertEquals(true, movie.favorite)
     }
+
+
 }

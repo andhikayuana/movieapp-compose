@@ -27,6 +27,7 @@ class MovieApiTest {
         const val getMovieNotFoundResponse = "movie_not_found_response.json"
         const val getMovieDetailResponse = "movie_detail_response.json"
         const val getMovieVideosResponse = "movie_videos_response.json"
+        const val getMovieCreditsResponse = "movie_credits_response.json"
     }
 
     private lateinit var mockWebServer: MockWebServer
@@ -256,8 +257,36 @@ class MovieApiTest {
             assertEquals("YouTube", video.site)
             assertEquals("GR03EwYlVQM", video.key)
         }
+    }
+
+    @Test
+    fun `when getMovieCredits with valid movieId should return success`() {
+        //given
+        val movieId = 505642
+        mockWebServer.enqueue(createMockResponse(getMovieCreditsResponse))
+
+        //when
+        val actualResponse = runBlocking {
+            movieApi.getMovieCredits(movieId)
+        }.getOrNull()
+
+        //then
+        actualResponse?.let { actual ->
+            assertNotNull(actual)
+            assertEquals(movieId, actual.id)
+            assertTrue(actual.cast.isNotEmpty())
+            assertTrue(actual.crew.isNotEmpty())
+
+            val castItem = actual.cast.first()
+            assertEquals("Letitia Wright", castItem.name)
+            assertEquals("Shuri", castItem.character)
+
+            val crewItem = actual.crew.first()
+            assertEquals("Sarah Halley Finn", crewItem.name)
+            assertEquals("Production", crewItem.department)
 
 
+        }
     }
 
 }

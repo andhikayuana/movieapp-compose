@@ -10,8 +10,8 @@ import javax.inject.Inject
 class GetMovieCreditsUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-
-    suspend operator fun invoke(movieId: Int): Flow<Pair<List<Cast>, List<Crew>>> {
-        return flowOf(movieRepository.getMovieCredits(movieId))
+    suspend operator fun invoke(movieId: Int): Pair<Flow<List<Cast>>, Flow<List<Crew>>> {
+        val movieCredits = movieRepository.getMovieCredits(movieId)
+        return Pair(flowOf(movieCredits.first), flowOf(movieCredits.second))
     }
 }

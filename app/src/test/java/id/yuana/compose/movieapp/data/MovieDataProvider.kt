@@ -2,7 +2,9 @@ package id.yuana.compose.movieapp.data
 
 import com.google.gson.Gson
 import id.yuana.compose.movieapp.data.remote.MockResponseFileReader
+import id.yuana.compose.movieapp.data.remote.MovieApi
 import id.yuana.compose.movieapp.data.remote.MovieApiTest
+import id.yuana.compose.movieapp.data.remote.response.GetMovieCreditsResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMovieDetailResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMoviePopularResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMovieVideosResponse
@@ -25,6 +27,11 @@ object MovieDataProvider {
     fun createGetMovieVideosResponse(): GetMovieVideosResponse {
         val json = MockResponseFileReader(MovieApiTest.getMovieVideosResponse).content
         return gson.fromJson(json, GetMovieVideosResponse::class.java)
+    }
+
+    fun createGetMovieCreditsResponse(): GetMovieCreditsResponse {
+        val json = MockResponseFileReader(MovieApiTest.getMovieCreditsResponse).content
+        return gson.fromJson(json, GetMovieCreditsResponse::class.java)
     }
 
     fun createGetMovieDetailResponse(): GetMovieDetailResponse {

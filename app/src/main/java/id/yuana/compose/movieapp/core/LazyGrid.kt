@@ -15,7 +15,7 @@ inline fun <T : Any> LazyGridScope.items(
     noinline key: ((item: T) -> Any)? = null,
     noinline span: (LazyGridItemSpanScope.(item: T) -> GridItemSpan)? = null,
     noinline contentType: (item: T) -> Any? = { null },
-    crossinline itemContent: @Composable LazyGridItemScope.(item: T) -> Unit
+    crossinline itemContent: @Composable LazyGridItemScope.(item: T?) -> Unit
 ) = items(
     count = items.itemCount,
     key = if (key == null) null else { index ->
@@ -31,7 +31,7 @@ inline fun <T : Any> LazyGridScope.items(
     } else null,
     contentType = { index: Int -> contentType(items[index]!!) }
 ) {
-    itemContent(items[it]!!)
+    itemContent(items[it])
 }
 
 @Parcelize

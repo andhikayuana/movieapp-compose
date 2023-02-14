@@ -9,7 +9,6 @@ import id.yuana.compose.movieapp.domain.usecase.AddRemoveMovieToFavoriteUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieCreditsUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieDetailUseCase
 import id.yuana.compose.movieapp.domain.usecase.GetMovieVideosUseCase
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -42,15 +41,12 @@ class MovieDetailViewModel @Inject constructor(
                     it.copy(videos = getMovieVideosUseCase(movie.id))
                 }
 
-                getMovieCreditsUseCase(movie.id).collect {
-                    val (cast, crew) = it
-
-                    _uiState.update {
-                        it.copy(
-                            cast = flowOf(cast),
-                            crew = flowOf(crew)
-                        )
-                    }
+                val (cast, crew) = getMovieCreditsUseCase(movie.id)
+                _uiState.update {
+                    it.copy(
+                        cast = cast,
+                        crew = crew
+                    )
                 }
 
             } catch (e: Exception) {

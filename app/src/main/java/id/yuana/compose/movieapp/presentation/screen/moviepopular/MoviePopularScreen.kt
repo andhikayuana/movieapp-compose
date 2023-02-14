@@ -9,10 +9,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.ElevatedFilterChip
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.AsyncImage
 import id.yuana.compose.movieapp.core.PagingPlaceholderKey
 import id.yuana.compose.movieapp.core.items
 import id.yuana.compose.movieapp.domain.model.Movie
@@ -85,12 +83,19 @@ fun MoviePopularScreen(
                     items = movies,
                     key = { it.id }
                 ) { movie ->
-                    MovieItemCard(
-                        onClick = {
-                            rootNavController.navigate(MovieRoutes.MovieDetail.routeFor(movie))
-                        },
-                        movie = movie
-                    )
+                    when (movie) {
+                        null -> Unit
+                        else -> {
+                            MovieItemCard(
+                                onClick = {
+                                    rootNavController.navigate(MovieRoutes.MovieDetail.routeFor(movie))
+                                },
+                                movie = movie
+                            )
+                        }
+                    }
+
+
                 }
 
                 when (val state = movies.loadState.append) {

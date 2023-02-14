@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.AsyncImage
 import id.yuana.compose.movieapp.R
 import id.yuana.compose.movieapp.core.items
 import id.yuana.compose.movieapp.navigation.MovieRoutes
@@ -64,12 +66,18 @@ fun MovieFavoriteScreen(
                 items = movies,
                 key = { it.id }
             ) { movie ->
-                MovieItemCard(
-                    onClick = {
-                        rootNavController.navigate(MovieRoutes.MovieDetail.routeFor(movie))
-                    },
-                    movie = movie
-                )
+                when (movie) {
+                    null -> Unit
+                    else -> {
+                        MovieItemCard(
+                            onClick = {
+                                rootNavController.navigate(MovieRoutes.MovieDetail.routeFor(movie))
+                            },
+                            movie = movie
+                        )
+                    }
+                }
+
             }
         }
 
