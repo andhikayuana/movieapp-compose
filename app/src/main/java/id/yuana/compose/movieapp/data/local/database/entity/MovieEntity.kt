@@ -14,41 +14,34 @@
  * limitations under the License.
  */
 
-package id.yuana.compose.movieapp.data.local.database
+package id.yuana.compose.movieapp.data.local.database.entity
 
 
-import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "movies")
 data class MovieEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val title: String,
+    @ColumnInfo(name = "title_original")
     val titleOriginal: String,
     val overview: String,
     val popularity: Double,
+    @ColumnInfo(name = "poster_path")
     val posterPath: String,
+    @ColumnInfo(name = "backdrop_path")
     val backdropPath: String,
+    @ColumnInfo(name = "vote_average")
     val voteAverage: Double,
+    @ColumnInfo(name = "vote_count")
     val voteCount: Int,
+    @ColumnInfo(name = "release_date")
     val releaseDate: Date,
     val runtime: Int,
-    val tagline: String
+    val tagline: String,
+    val page: Int = -1
 )
-
-@Dao
-interface MovieEntityDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(movie: MovieEntity)
-
-    @Query("SELECT * FROM movies WHERE id = :movieId")
-    suspend fun find(movieId: Int): MovieEntity?
-
-    @Query("DELETE FROM movies WHERE id = :movieId")
-    suspend fun delete(movieId: Int)
-
-    @Query("SELECT * FROM movies")
-    fun paginate(): PagingSource<Int, MovieEntity>
-}

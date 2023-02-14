@@ -1,12 +1,15 @@
+@file:OptIn(ExperimentalPagingApi::class)
+
 package id.yuana.compose.movieapp.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
-import id.yuana.compose.movieapp.data.local.database.MovieEntity
+import id.yuana.compose.movieapp.data.local.database.entity.MovieEntity
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
-import id.yuana.compose.movieapp.data.paging.MovieRemotePagingSource
+import id.yuana.compose.movieapp.data.paging.MovieRemoteMediator
 import id.yuana.compose.movieapp.data.remote.MovieApi
 import id.yuana.compose.movieapp.domain.model.Cast
 import id.yuana.compose.movieapp.domain.model.Crew
@@ -19,14 +22,16 @@ class MovieRepositoryImpl @Inject constructor(
     private val movieApi: MovieApi,
     private val movieDatabase: MovieDatabase
 ) : MovieRepository {
-    override fun getMoviePopular(): Pager<Int, Movie> = Pager(
+    override fun getMoviePopular(): Pager<Int, MovieEntity> = Pager(
         config = PagingConfig(
             pageSize = 20
         ),
         pagingSourceFactory = {
             //not testable?
-            MovieRemotePagingSource(movieApi)
-        }
+//            MovieRemotePagingSource(movieApi)
+            movieDatabase.movieEntityDao().paginate()
+        },
+        remoteMediator = MovieRemoteMediator(movieApi, movieDatabase)
     )
 
 
@@ -57,7 +62,7 @@ class MovieRepositoryImpl @Inject constructor(
         if (movie.favorite) {
             movieDatabase.movieEntityDao().delete(movie.id)
         } else {
-            movieDatabase.movieEntityDao().insert(movie.toEntity())
+            movieDatabase.movieEntityDao().insertOrUpdate(movie.toEntity())
         }
         return movie.copy(favorite = !movie.favorite)
     }

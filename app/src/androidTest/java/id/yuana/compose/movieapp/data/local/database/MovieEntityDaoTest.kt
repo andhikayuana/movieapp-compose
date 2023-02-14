@@ -7,6 +7,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
+import id.yuana.compose.movieapp.data.local.database.entity.MovieEntity
+import id.yuana.compose.movieapp.data.local.database.entity.MovieEntityDao
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.remote.response.GetMoviePopularResponse
@@ -74,7 +76,7 @@ class MovieEntityDaoTest {
         val movieEntity = movieEntityDummy
 
         //when
-        movieEntityDao.insert(movieEntity)
+        movieEntityDao.insertOrUpdate(movieEntity)
 
         //then
         val actual = movieEntityDao.find(movieEntity.id)
@@ -86,7 +88,7 @@ class MovieEntityDaoTest {
     fun givenValidMovieEntityThenUpdateSuccess() = runBlocking {
         val movieEntity = movieEntityDummy
 
-        movieEntityDao.insert(movieEntity)
+        movieEntityDao.insertOrUpdate(movieEntity)
 
         val actual = movieEntityDao.find(movieEntity.id)
         assertThat(actual).isEqualTo(movieEntity)
@@ -94,7 +96,7 @@ class MovieEntityDaoTest {
 
         val movieEntityUpdated = movieEntityDummy.copy(title = "Title Updated Here")
 
-        movieEntityDao.insert(movieEntityUpdated)
+        movieEntityDao.insertOrUpdate(movieEntityUpdated)
 
         val actualUpdated = movieEntityDao.find(movieEntity.id)
 
@@ -107,7 +109,7 @@ class MovieEntityDaoTest {
     fun deleteMovieEntityThenSuccess(): Unit = runBlocking {
         val movieEntity = movieEntityDummy
 
-        movieEntityDao.insert(movieEntity)
+        movieEntityDao.insertOrUpdate(movieEntity)
 
         val actual = movieEntityDao.find(movieEntity.id)
         assertThat(actual).isEqualTo(movieEntity)
@@ -122,7 +124,7 @@ class MovieEntityDaoTest {
     fun getPagingSourceThenSuccess(): Unit = runBlocking {
         val movieEntity = movieEntityDummy
 
-        movieEntityDao.insert(movieEntity)
+        movieEntityDao.insertOrUpdate(movieEntity)
 
         val pagingSource = movieEntityDao.paginate()
         val actual = pagingSource.load(PagingSource.LoadParams.Refresh(1, 20, false))

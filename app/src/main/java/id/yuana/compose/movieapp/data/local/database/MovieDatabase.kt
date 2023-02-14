@@ -20,12 +20,18 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import id.yuana.compose.movieapp.data.local.database.dao.MovieEntityDao
+import id.yuana.compose.movieapp.data.local.database.dao.RemoteKeyEntityDao
+import id.yuana.compose.movieapp.data.local.database.entity.MovieEntity
+import id.yuana.compose.movieapp.data.local.database.entity.RemoteKeyEntity
 import java.util.*
 
-@Database(entities = [MovieEntity::class], version = 1)
+@Database(entities = [MovieEntity::class, RemoteKeyEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieEntityDao(): MovieEntityDao
+
+    abstract fun remoteKeyEntityDao(): RemoteKeyEntityDao
 
 }
 

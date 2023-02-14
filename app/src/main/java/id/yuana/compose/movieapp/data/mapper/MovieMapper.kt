@@ -1,7 +1,7 @@
 package id.yuana.compose.movieapp.data.mapper
 
 import android.annotation.SuppressLint
-import id.yuana.compose.movieapp.data.local.database.MovieEntity
+import id.yuana.compose.movieapp.data.local.database.entity.MovieEntity
 import id.yuana.compose.movieapp.data.remote.response.GetMovieDetailResponse
 import id.yuana.compose.movieapp.data.remote.response.GetMoviePopularResponse
 import id.yuana.compose.movieapp.domain.model.Movie

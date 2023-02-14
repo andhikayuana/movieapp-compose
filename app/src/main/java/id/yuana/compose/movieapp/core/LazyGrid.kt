@@ -29,7 +29,7 @@ inline fun <T : Any> LazyGridScope.items(
     span = if (span != null) {
         { span(items[it]!!) }
     } else null,
-    contentType = { index: Int -> contentType(items[index]!!) }
+    contentType = { index: Int -> items[index]?.let(contentType) }
 ) {
     itemContent(items[it])
 }

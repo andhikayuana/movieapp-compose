@@ -10,7 +10,6 @@ import id.yuana.compose.movieapp.data.local.database.MovieDatabase
 import id.yuana.compose.movieapp.data.mapper.toEntity
 import id.yuana.compose.movieapp.data.mapper.toModel
 import id.yuana.compose.movieapp.data.remote.MovieApi
-import id.yuana.compose.movieapp.domain.model.Cast
 import id.yuana.compose.movieapp.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.coJustRun
@@ -79,10 +78,14 @@ class MovieRepositoryTest {
             )
 
             //when
-            movieRepository.getMovieVideos(blackPantherId)
+            val movieVideosActual = movieRepository.getMovieVideos(blackPantherId)
 
             //then
             coVerify { movieApi.getMovieVideos(blackPantherId) }
+
+            val videoActual = movieVideosActual.first()
+
+            assertEquals("https://img.youtube.com/vi/GR03EwYlVQM/0.jpg", videoActual.getYoutubeThumbnail())
         }
 
     @Test(expected = HttpException::class)
@@ -112,6 +115,12 @@ class MovieRepositoryTest {
 
         assertTrue(actual.first.isNotEmpty())
         assertTrue(actual.second.isNotEmpty())
+
+        val castActual = actual.first.first()
+        val crewActual = actual.second.first()
+
+        assertEquals("https://image.tmdb.org/t/p/w500/i6fbYNn5jWA6swWtaqgzaj02RMc.jpg", castActual.getProfileImage())
+        assertEquals("https://image.tmdb.org/t/p/w500/pI3OhmnHhXLEwuv0Vq6qJHivCJA.jpg", crewActual.getProfileImage())
     }
 
     @Test
@@ -131,6 +140,12 @@ class MovieRepositoryTest {
 
         assertEquals(blackPantherId, movie.id)
         assertEquals(false, movie.favorite)
+
+        assertEquals("https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg", movie.getPosterUrl())
+        assertEquals("https://image.tmdb.org/t/p/w500/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg", movie.getBackdropUrl())
+
+        assertEquals("2h 42m", movie.getDuration())
+        assertEquals("2022", movie.getReleaseYear())
     }
 
     @Test
@@ -173,13 +188,13 @@ class MovieRepositoryTest {
     fun `given movie with favorite false then return success with favorite movie`() = runTest {
         //given
         val blackPantherMovie = createGetMovieDetailResponse().toModel()
-        coJustRun { movieDatabase.movieEntityDao().insert(blackPantherMovie.toEntity()) }
+        coJustRun { movieDatabase.movieEntityDao().insertOrUpdate(blackPantherMovie.toEntity()) }
 
         //when
         val movie = movieRepository.addRemoveMovieFavorite(blackPantherMovie)
 
         //then
-        coVerify { movieDatabase.movieEntityDao().insert(blackPantherMovie.toEntity()) }
+        coVerify { movieDatabase.movieEntityDao().insertOrUpdate(blackPantherMovie.toEntity()) }
         assertEquals(true, movie.favorite)
     }
 

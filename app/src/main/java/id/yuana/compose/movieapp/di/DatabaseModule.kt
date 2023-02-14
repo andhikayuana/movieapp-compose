@@ -24,9 +24,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.yuana.compose.movieapp.data.local.database.MovieDatabase
-import id.yuana.compose.movieapp.data.local.database.MovieEntityDao
-//import id.yuana.compose.movieapp.data.local.database.MovieDatabase
-//import id.yuana.compose.movieapp.data.local.database.MovieEntityDao
+import id.yuana.compose.movieapp.data.local.database.dao.MovieEntityDao
+import id.yuana.compose.movieapp.data.local.database.dao.RemoteKeyEntityDao
 import javax.inject.Singleton
 
 
@@ -35,8 +34,13 @@ import javax.inject.Singleton
 class DatabaseModule {
 
     @Provides
-    fun provideMyModelDao(movieDatabase: MovieDatabase): MovieEntityDao {
+    fun provideMovieEntityDao(movieDatabase: MovieDatabase): MovieEntityDao {
         return movieDatabase.movieEntityDao()
+    }
+
+    @Provides
+    fun provideRemoteKeyEntityDao(movieDatabase: MovieDatabase): RemoteKeyEntityDao {
+        return movieDatabase.remoteKeyEntityDao()
     }
 
     @Provides

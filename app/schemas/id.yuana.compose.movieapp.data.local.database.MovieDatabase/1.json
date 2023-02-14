@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6aed0e739460efee07fc541be4efd6d8",
+    "identityHash": "a8a70137bd6f11b475999050b5fcd291",
     "entities": [
       {
         "tableName": "movies",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `titleOriginal` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT NOT NULL, `backdropPath` TEXT NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, `releaseDate` INTEGER NOT NULL, `runtime` INTEGER NOT NULL, `tagline` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `title_original` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `poster_path` TEXT NOT NULL, `backdrop_path` TEXT NOT NULL, `vote_average` REAL NOT NULL, `vote_count` INTEGER NOT NULL, `release_date` INTEGER NOT NULL, `runtime` INTEGER NOT NULL, `tagline` TEXT NOT NULL, `page` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -22,7 +22,7 @@
           },
           {
             "fieldPath": "titleOriginal",
-            "columnName": "titleOriginal",
+            "columnName": "title_original",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -40,31 +40,31 @@
           },
           {
             "fieldPath": "posterPath",
-            "columnName": "posterPath",
+            "columnName": "poster_path",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "backdropPath",
-            "columnName": "backdropPath",
+            "columnName": "backdrop_path",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "voteAverage",
-            "columnName": "voteAverage",
+            "columnName": "vote_average",
             "affinity": "REAL",
             "notNull": true
           },
           {
             "fieldPath": "voteCount",
-            "columnName": "voteCount",
+            "columnName": "vote_count",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "releaseDate",
-            "columnName": "releaseDate",
+            "columnName": "release_date",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -79,6 +79,12 @@
             "columnName": "tagline",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "page",
+            "columnName": "page",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -89,12 +95,56 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "remote_keys",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movie_id` INTEGER NOT NULL, `prevKey` INTEGER, `currentPage` INTEGER NOT NULL, `nextKey` INTEGER, `created_at` INTEGER NOT NULL, PRIMARY KEY(`movie_id`))",
+        "fields": [
+          {
+            "fieldPath": "movieID",
+            "columnName": "movie_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevKey",
+            "columnName": "prevKey",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentPage",
+            "columnName": "currentPage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextKey",
+            "columnName": "nextKey",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "movie_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6aed0e739460efee07fc541be4efd6d8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a8a70137bd6f11b475999050b5fcd291')"
     ]
   }
 }

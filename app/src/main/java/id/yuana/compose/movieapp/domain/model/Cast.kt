@@ -16,7 +16,7 @@ data class Cast(
 ) {
     fun getProfileImage(size: String = "w500"): String = when (profilePath) {
         null -> "https://cdn.landesa.org/wp-content/uploads/default-user-image.png"
-        else -> "https://image.tmdb.org/t/p/${size}/${profilePath}"
+        else -> "https://image.tmdb.org/t/p/${size}${profilePath}"
     }
 
 }

@@ -23,10 +23,10 @@ data class Movie(
     val favorite: Boolean = false
 ) : Parcelable {
     fun getPosterUrl(size: String = "w500"): String =
-        "https://image.tmdb.org/t/p/${size}/${posterPath}"
+        "https://image.tmdb.org/t/p/${size}${posterPath}"
 
     fun getBackdropUrl(size: String = "w500"): String =
-        "https://image.tmdb.org/t/p/${size}/${backdropPath}"
+        "https://image.tmdb.org/t/p/${size}${backdropPath}"
 
     fun getDuration(): String {
         val day = floor((runtime / 1440).toDouble())

@@ -103,6 +103,5 @@ class MovieDetailViewModelTest {
 
         coVerify { addRemoveMovieToFavoriteUseCase(movieDetail) }
         assertEquals(true, movieDetailViewModel.uiState.value.movie.last().favorite)
-
     }
 }
