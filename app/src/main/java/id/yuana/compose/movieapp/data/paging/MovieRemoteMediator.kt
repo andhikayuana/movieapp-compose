@@ -23,7 +23,7 @@ class MovieRemoteMediator @Inject constructor(
 ) : RemoteMediator<Int, MovieEntity>() {
 
     override suspend fun initialize(): InitializeAction {
-        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)
 
         return if (System.currentTimeMillis() - (movieDatabase.remoteKeyEntityDao()
                 .getCreationTime() ?: 0) < cacheTimeout
