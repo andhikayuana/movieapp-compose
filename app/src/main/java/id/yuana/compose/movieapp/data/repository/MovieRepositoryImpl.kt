@@ -24,12 +24,12 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
     override fun getMoviePopular(): Pager<Int, MovieEntity> = Pager(
         config = PagingConfig(
-            pageSize = 20
+            pageSize = 20,
         ),
         pagingSourceFactory = {
             //not testable?
 //            MovieRemotePagingSource(movieApi)
-            movieDatabase.movieEntityDao().paginate()
+            movieDatabase.movieEntityDao().paginatePopular()
         },
         remoteMediator = MovieRemoteMediator(movieApi, movieDatabase)
     )
@@ -70,7 +70,7 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovieFavorite(): Pager<Int, MovieEntity> = Pager(
         config = PagingConfig(pageSize = 20)
     ) {
-        movieDatabase.movieEntityDao().paginate()
+        movieDatabase.movieEntityDao().paginatePopular()
     }
 
 

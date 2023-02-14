@@ -22,6 +22,6 @@ interface MovieEntityDao {
     @Query("DELETE FROM movies")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM movies ORDER BY page")
-    fun paginate(): PagingSource<Int, MovieEntity>
+    @Query("SELECT * FROM movies ORDER BY popularity DESC")
+    fun paginatePopular(): PagingSource<Int, MovieEntity>
 }
